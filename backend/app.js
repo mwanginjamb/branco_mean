@@ -30,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use((req,res,next)=> {
     res.setHeader('Access-Control-Allow-Origin',"*");
     res.setHeader('Access-Control-Allow-Headers',"Origin, X-Requested-With, Content-Type,Accept");
-    res.setHeader('Access-Control-Allow-Methods',"POST,GET,PATCH,DELETE,OPTIONS");
+    res.setHeader('Access-Control-Allow-Methods',"POST,GET,PATCH,PUT,DELETE,OPTIONS");
     next();
 });
 
@@ -42,34 +42,68 @@ app.post("/api/posts", (req,res, next) => {
         title: req.body.title,
         content: req.body.content
     });
-    post.save();
+    post.save().then(result => {
+        res.status(201).json({
+            message: "Post Saved Successfully",
+            postID: result._id
+        });
+    });
     console.log(post);
+   
+});
 
-    res.status(201).json({
-        message: "Post Saved Successfully"
+
+//Middleware to update posts
+
+app.put("/api/posts/:id", (req,res,next) => {
+
+    post = new Post({
+        _id: req.body.id,
+        title: req.body.title,
+        content: req.body.content
+    });
+    Post.updateOne({ _id: req.params.id }, post).then( result => {
+        console.log(result);
+        res.status(200).json({ message: "Update successful."});
     });
 });
 
-//Middleware to get posts
+//Middleware to get all posts
 app.get('/api/posts',(req,res,next) => {
-    const posts = [
-        {
-            id: 1,
-            title: 'My First post',
-            const: 'This is My First Name : Francis'
-        },
-        {
-            id: 2,
-            title: 'My Second Post',
-            const: 'Checkout the fancy response from Express server'
-        }
-     ];
-
-     //resturn our response as json
-    res.status(200).json({
-        message: 'successfull API response',
-        posts: posts,
+    
+    Post.find().then(documents => {
+         //return our response as json
+        res.status(200).json({
+            message: 'successfull API response',
+            posts: documents,
+        });
     });
+    
+});
+
+
+//Middleware to get a particular post based on id
+
+app.get('/api/posts/:id',(req,res,next) => {
+    const id = req.params.id;
+    Post.findById(id).then(post => {
+         if(post) {
+            res.status(200).json(post);
+         }else {
+             res.status(404).json({ message: 'Post not found!'});
+         }
+    });
+});
+
+//Middeware to define delete route
+
+app.delete('/api/posts/:id', (req, res, next) => {
+
+    Post.deleteOne({_id: req.params.id}).then( result => {
+        console.log(result);
+        res.status(200).json({ message: 'Post Deleted Successfully! '});
+    });
+       
 });
 
 //Export the app - the node way
