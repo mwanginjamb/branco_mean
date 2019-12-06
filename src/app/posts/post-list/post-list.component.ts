@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Post } from '../posts.model';
+import { PostsService } from '../posts.service';
 
 @Component({
   selector: 'app-post-list',
@@ -8,17 +9,16 @@ import { Post } from '../posts.model';
 })
 export class PostListComponent implements OnInit {
 
-  /* posts = [
-    {title: 'I am  a victor', content: 'Victor work smart and Hard' },
-    {title: 'Business', content: 'Business is making money.' },
-    {title: 'Society', content: 'A liberal society is benefitial' }
-  ]; */
 
- @Input() posts: Post[] = [];
 
-  constructor() { }
+  posts: Post[] = [];
+
+  constructor(public postsService: PostsService) {
+
+   }
 
   ngOnInit() {
+
   }
 
 }
