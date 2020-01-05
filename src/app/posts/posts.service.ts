@@ -1,6 +1,3 @@
-<<<<<<< HEAD
- import { Post } from './posts.model';
-=======
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
@@ -73,7 +70,7 @@ export class PostsService {
 
         });
     }
- 
+
     deletePost(postID: string){
         this.http.delete<{ message: string }>('http://localhost:3000/api/posts/' + postID)
         .subscribe(() => {
@@ -83,4 +80,3 @@ export class PostsService {
         });
     }
 }
->>>>>>> 698de2462d1f16f9344479344adee31f38c89b07

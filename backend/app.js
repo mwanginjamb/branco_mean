@@ -7,7 +7,8 @@ const app = express();
 
 //make mongo db connection
 
-mongoose.connect("mongodb+srv://francois:XPCRpknA3gZMnxhD@cluster0-okgah.mongodb.net/branco?retryWrites=true&w=majority", { useNewUrlParser: true })
+mongoose.connect("mongodb+srv://francois:XPCRpknA3gZMnxhD@cluster0-okgah.mongodb.net/branco?retryWrites=true&w=majority",
+ { useNewUrlParser: true, useUnifiedTopology: true })
 .then(() => {
     console.log('Connected to db successfully');
 })
@@ -49,7 +50,7 @@ app.post("/api/posts", (req,res, next) => {
         });
     });
     console.log(post);
-   
+
 });
 
 
@@ -70,7 +71,7 @@ app.put("/api/posts/:id", (req,res,next) => {
 
 //Middleware to get all posts
 app.get('/api/posts',(req,res,next) => {
-    
+
     Post.find().then(documents => {
          //return our response as json
         res.status(200).json({
@@ -78,7 +79,7 @@ app.get('/api/posts',(req,res,next) => {
             posts: documents,
         });
     });
-    
+
 });
 
 
@@ -103,7 +104,7 @@ app.delete('/api/posts/:id', (req, res, next) => {
         console.log(result);
         res.status(200).json({ message: 'Post Deleted Successfully! '});
     });
-       
+
 });
 
 //Export the app - the node way

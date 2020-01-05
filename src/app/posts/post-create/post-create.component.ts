@@ -2,10 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Post } from '../posts.model';
 import { NgForm } from '@angular/forms';
 import { PostsService } from '../posts.service';
-<<<<<<< HEAD
-=======
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
->>>>>>> 698de2462d1f16f9344479344adee31f38c89b07
 
 @Component({
   selector: 'app-post-create',
@@ -15,17 +12,10 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 export class PostCreateComponent implements OnInit {
   enteredTitle = '';
   enteredContent = '';
-<<<<<<< HEAD
-
-  constructor(public postsService: PostsService) { }
-
-  ngOnInit() {
-
-=======
   private postId: string;
   private mode = 'create';
   public post: Post;
- 
+
   constructor( public postsService: PostsService, public route: ActivatedRoute, public router: Router) { }
 
   ngOnInit() {
@@ -45,7 +35,6 @@ export class PostCreateComponent implements OnInit {
         this.post = {id: null, title: null, content : 'Your content' };
       }
     });
->>>>>>> 698de2462d1f16f9344479344adee31f38c89b07
   }
 
   onSavePost(form: NgForm) {
@@ -53,10 +42,6 @@ export class PostCreateComponent implements OnInit {
       return;
     }
 
-<<<<<<< HEAD
-
-
-=======
     if ( this.mode === 'create' ) {
       this.postsService.addPost(form.value.title, form.value.content);
     } else {
@@ -64,7 +49,6 @@ export class PostCreateComponent implements OnInit {
       return this.router.navigate(['/update/' + this.postId ]);
     }
     form.resetForm();
->>>>>>> 698de2462d1f16f9344479344adee31f38c89b07
   }
 
 }
