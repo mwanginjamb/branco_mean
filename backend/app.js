@@ -1,7 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const Post = require('./models/post');
+
 const mongoose = require('mongoose');
+
+const postsRoutes = require('./routes/posts');
 
 const app = express();
 
@@ -35,77 +37,9 @@ app.use((req,res,next)=> {
     next();
 });
 
+//make express aware of posts routes
 
-//Middleware to post/add posts
-
-app.post("/api/posts", (req,res, next) => {
-    const post = new Post({
-        title: req.body.title,
-        content: req.body.content
-    });
-    post.save().then(result => {
-        res.status(201).json({
-            message: "Post Saved Successfully",
-            postID: result._id
-        });
-    });
-    console.log(post);
-
-});
-
-
-//Middleware to update posts
-
-app.put("/api/posts/:id", (req,res,next) => {
-
-    post = new Post({
-        _id: req.body.id,
-        title: req.body.title,
-        content: req.body.content
-    });
-    Post.updateOne({ _id: req.params.id }, post).then( result => {
-        console.log(result);
-        res.status(200).json({ message: "Update successful."});
-    });
-});
-
-//Middleware to get all posts
-app.get('/api/posts',(req,res,next) => {
-
-    Post.find().then(documents => {
-         //return our response as json
-        res.status(200).json({
-            message: 'successfull API response',
-            posts: documents,
-        });
-    });
-
-});
-
-
-//Middleware to get a particular post based on id
-
-app.get('/api/posts/:id',(req,res,next) => {
-    const id = req.params.id;
-    Post.findById(id).then(post => {
-         if(post) {
-            res.status(200).json(post);
-         }else {
-             res.status(404).json({ message: 'Post not found!'});
-         }
-    });
-});
-
-//Middeware to define delete route
-
-app.delete('/api/posts/:id', (req, res, next) => {
-
-    Post.deleteOne({_id: req.params.id}).then( result => {
-        console.log(result);
-        res.status(200).json({ message: 'Post Deleted Successfully! '});
-    });
-
-});
+app.use('/api/posts',postsRoutes);
 
 //Export the app - the node way
 
