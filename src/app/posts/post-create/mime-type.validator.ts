@@ -6,7 +6,7 @@ export const mimeType = (control: AbstractControl):
   const file = control.value as File;
   const fileReader = new FileReader();
   const frObs = Observable.create((observer: Observer<{[key: string]: any}>) => {
-    fileReader.addEventListener("loadend", () => {
+    fileReader.addEventListener('loadend', () => {
       const arr = new Uint8Array(fileReader.result).subarray(0, 4);
 
       let header = '';

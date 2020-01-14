@@ -5,6 +5,8 @@ const mongoose = require('mongoose');
 
 const postsRoutes = require('./routes/posts');
 
+const path = require('path'); //allows for proper path construction
+
 const app = express();
 
 //make mongo db connection
@@ -23,6 +25,10 @@ mongoose.connect("mongodb+srv://francois:XPCRpknA3gZMnxhD@cluster0-okgah.mongodb
 //define a middeware to parse request bodies
 
 app.use(bodyParser.json());
+
+//make the images folder accessible
+
+app.use('/images', express.static(path.join("backend/images")));
 
 //to parse url data use
 
